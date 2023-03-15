@@ -1,63 +1,12 @@
-import requests
 import time
-
-TOKEN = '5591155154:AAHn0llNadmGCykPsdpkfc5OXcv54S0MQyc'
-BASE_URL = f'https://api.telegram.org/bot{TOKEN}/'
-
-def get_last_update():
-    # make url for getupdates
-    url_for_getupdates = BASE_URL + "getUpdates"
-    # meke request
-    response = requests.get(url_for_getupdates)
-    # check rsponse status
-    if response.status_code == 200:
-        # get data from response as dict
-        data = response.json()
-        # get result
-        result = data['result']
-        # get last update
-        last_update = result[-1]
-        return last_update
-    return False
-
-def sendMessage(chat_id, text):
-    # url for sending message
-    url_for_sending_msg = BASE_URL + "sendMessage"
-    # qurey parameters for resquest
-    payload = {
-        "chat_id": chat_id,
-        "text": text
-    }
-    # send message
-    response = requests.get(url_for_sending_msg, params=payload)
-    return response.status_code
-
-def sendSticker(chat_id, sticker):
-    # url for sending message
-    url_for_sending_msg = BASE_URL + "sendSticker"
-    # qurey parameters for resquest
-    payload = {
-        "chat_id": chat_id,
-        "sticker": sticker
-    }
-    # send message
-    response = requests.get(url_for_sending_msg, params=payload)
-    return response.status_code
-
-def sendContact(chat_id, phone_number, first_name, last_name = ''):
-    # url for sending message
-    url_for_sending_msg = BASE_URL + "sendContact"
-    # qurey parameters for resquest
-    payload = {
-        "chat_id": chat_id,
-        "phone_number": phone_number,
-        "first_name": first_name,
-        "last_name": last_name
-    }
-    # send message
-    response = requests.get(url_for_sending_msg, params=payload)
-    return response.status_code
-
+from handlers import (
+    get_last_update,
+    sendMessage, 
+    sendSticker,
+    sendContact,
+    sendLocation,
+    sendPhoto
+)
 
 def main():
     # for last update id
@@ -90,6 +39,22 @@ def main():
                 if last_nam:
                     last_name = contact['last_name'] 
                 sendContact(chat_id, phone_number, first_name, last_name)
+
+            location = last_message.get('location')
+            if location:
+                # send Location
+                latitude = location['latitude']
+                longitude = location['longitude']
+                sendLocation(chat_id, latitude, longitude)
+            
+            photo = last_message.get('photo')
+            if photo:
+                # send Location
+                photo = photo[-1]['file_id']
+                
+                sendPhoto(chat_id, photo)
+
+            
             last_update_id = curr_update_id
         
         time.sleep(1)
