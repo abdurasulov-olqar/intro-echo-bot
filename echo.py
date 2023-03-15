@@ -7,7 +7,8 @@ from handlers import (
     sendLocation,
     sendPhoto,
     sendAnimation,
-    sendAudio
+    sendAudio,
+    sendDocument
 )
 
 def main():
@@ -67,6 +68,13 @@ def main():
                 # send audio
                 audio = audio['file_id']
                 sendAudio(chat_id, audio)
+
+            document = last_message.get('document')
+            if document:
+                # send document 
+                document = document['file_id']
+                print(document)
+                sendDocument(chat_id, document)
 
 
             last_update_id = curr_update_id

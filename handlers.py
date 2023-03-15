@@ -97,12 +97,24 @@ def sendAnimation(chat_id, animation):
     return response.status_code
 
 def sendAudio(chat_id, audio):
-    # url for sending animation
+    # url for sending audio
     url_for_sending_msg = BASE_URL + "sendAudio"
     # qurey parameters for resquest
     payload = {
         "chat_id": chat_id,
         "audio": audio, 
+    }
+    # send Animation
+    response = requests.get(url_for_sending_msg, params=payload)
+    return response.status_code
+
+def sendDocument(chat_id, document):
+    # url for sending document
+    url_for_sending_msg = BASE_URL + "sendDocument"
+    # qurey parameters for resquest
+    payload = {
+        "chat_id": chat_id,
+        "document": document, 
     }
     # send Animation
     response = requests.get(url_for_sending_msg, params=payload)
