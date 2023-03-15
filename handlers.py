@@ -78,11 +78,32 @@ def sendPhoto(chat_id, photo):
     # qurey parameters for resquest
     payload = {
         "chat_id": chat_id,
-        "photo": photo,
-        
-        
+        "photo": photo, 
     }
     # send photo
     response = requests.get(url_for_sending_msg, params=payload)
     return response.status_code
 
+def sendAnimation(chat_id, animation):
+    # url for sending animation
+    url_for_sending_msg = BASE_URL + "sendAnimation"
+    # qurey parameters for resquest
+    payload = {
+        "chat_id": chat_id,
+        "animation": animation, 
+    }
+    # send Animation
+    response = requests.get(url_for_sending_msg, params=payload)
+    return response.status_code
+
+def sendAudio(chat_id, audio):
+    # url for sending animation
+    url_for_sending_msg = BASE_URL + "sendAudio"
+    # qurey parameters for resquest
+    payload = {
+        "chat_id": chat_id,
+        "audio": audio, 
+    }
+    # send Animation
+    response = requests.get(url_for_sending_msg, params=payload)
+    return response.status_code

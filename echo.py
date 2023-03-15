@@ -5,7 +5,9 @@ from handlers import (
     sendSticker,
     sendContact,
     sendLocation,
-    sendPhoto
+    sendPhoto,
+    sendAnimation,
+    sendAudio
 )
 
 def main():
@@ -49,12 +51,24 @@ def main():
             
             photo = last_message.get('photo')
             if photo:
-                # send Location
+                # send photo
                 photo = photo[-1]['file_id']
                 
                 sendPhoto(chat_id, photo)
 
-            
+            animation = last_message.get('animation')
+            if animation:
+                # send animation
+                animation = animation['file_id']
+                sendAnimation(chat_id, animation)
+
+            audio = last_message.get('audio')
+            if audio:
+                # send audio
+                audio = audio['file_id']
+                sendAudio(chat_id, audio)
+
+
             last_update_id = curr_update_id
         
         time.sleep(1)
